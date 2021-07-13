@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Make prediction</title>
+    <style>
+        a {
+            color:blue;
+            text-decoration: none
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<h2 style="display: inline;  margin-right: 3em;">Insert the ID of the station and the date on which you want to get the prediction</h2>
+<a href="/" >Go home</a>
+
+<form method="POST">
+    <span style="display:inline-block">
+    <label for=id style="display:block">Station ID</label>
+    <input name=id>
+    </span><br><br>
+
+    <span style="display:inline-block">
+    <label for=year style="display:block">Year</label>
+    <input name=year value={{year}}>
+    </span>
+    <span style="display:inline-block">
+    <label for=month style="display:block">Month</label>
+    <input name=month value={{month}}>
+    </span>
+    <span style="display:inline-block">
+    <label for=day style="display:block">Day</label>
+    <input name=day value={{day}}>
+    </span>
+    <span style="display:inline-block">
+    <label for=hour style="display:block">Hour</label>
+    <input name=hour value={{hour+1}}>
+    </span>
+
+    <input type="submit">
+</form>
+</body>
+
+</html>

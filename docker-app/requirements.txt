@@ -1,0 +1,8 @@
+flask
+redis
+requests
+datetime
+scikit-learn
+numpy
+pandas
+

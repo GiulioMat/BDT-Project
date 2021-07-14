@@ -16,11 +16,13 @@ client = redis.Redis(host='redis', port=6379, decode_responses=True)
 # load random forest model
 randomforest = load('./model/rf.joblib')
 
+# station states to be predicted
 states = ['ACTIVE', 'AVAILABLE', 'FAULT', 'OCCUPIED', 'TEMPORARYUNAVAILABLE', 'UNKNOWN']
 
+# file containing the input structure expected by the model
 df_based = pd.read_csv('./model/expected_input.csv')
 
-
+# retrieve forecast weather
 def get_weather(date, hour, lat, long):
     try:
         url = 'http://api.weatherapi.com/v1/forecast.json?key=98978055e3eb4bbca9855750212205&q=' + str(lat) + ',' + str(
@@ -35,7 +37,7 @@ def get_weather(date, hour, lat, long):
     except:
         pass
 
-
+# tourism seasonality given the date
 def set_season(date):
     year = str(date.year)
     if (datetime.strptime(year + '-08-07', '%Y-%m-%d').date() < date < datetime.strptime(year + '-08-21', '%Y-%m-%d').date()) \
@@ -51,7 +53,7 @@ def set_season(date):
     else:
         return 2
 
-
+# rename columns of output table, for clarity
 def rename_columns(df):
     df.rename(columns={'pcode': 'Station ID', 'pcoordinate_x': 'Longitude', 'pcoordinate_y': 'Latitude', 'porigin': 'Source',
                        'pmetadata_city': 'City', 'pmetadata_address': 'Address', 'pmetadata_provider': 'Provider',
@@ -70,7 +72,7 @@ def home():
 
 # return table with all the stations and their specifics
 @app.route('/stations/all', methods=['GET'])
-def api_all():
+def app_all():
     df = pd.DataFrame()
 
     for station_id in client.keys():
@@ -93,7 +95,7 @@ def api_all():
 # GET: return form where to insert the id of the station
 # POST: return table with the specifics of the station selected and its plugs
 @app.route('/stations/id', methods=['GET', 'POST'])
-def api_id():
+def app_id():
     if request.method == 'POST':
 
         station_id = request.form['id']
@@ -120,7 +122,7 @@ def api_id():
 # GET: return form where to insert the id of the station and the date of the prediction (divided in year, month, day, hour)
 # POST: return table with the prediction of the plugs obtained
 @app.route('/predict', methods=['GET', 'POST'])
-def api_prediction():
+def app_prediction():
     if request.method == 'POST':
 
         # get id of station and date inserted
@@ -144,14 +146,14 @@ def api_prediction():
         # compose date
         date = "{}-{}-{}T{}".format(year, month, day, hour)
         date = datetime.strptime(date, '%Y-%m-%dT%H')
-
+        # get data of the station on redis
         data = client.get(station_id)
 
         if data is None:
             return "Error: The id provided is not present in the database. <a href=/predict style=color:blue;>Go back</a>"
 
         data = json.loads(data)
-
+        # preprocess data and add weather forecast and seasonality
         df_station = pd.DataFrame(data)
         df_station['month'] = date.month
         df_station['day'] = date.day
@@ -167,6 +169,7 @@ def api_prediction():
         codes = df_station['scode']
         df_query = pd.get_dummies(df_station, dtype='int64')
 
+        # make data have same format as expected input
         col_diff_add = df_based.columns.difference(df_query.columns)
         col_diff_remove = df_query.columns.difference(df_based.columns)
 
@@ -178,6 +181,7 @@ def api_prediction():
 
         df_query = df_query[df_based.columns]
 
+        # prediction stage
         df = pd.DataFrame(columns=['pcode', 'scode', 'Plug state', 'Station state', 'Prediction date'])
 
         for index, row in df_query.iterrows():

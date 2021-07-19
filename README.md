@@ -15,9 +15,9 @@ The service, through a simple interface, is capable of providing to a user, who 
 
 - `redis_keys.py`: this code allows us to retrieve data from Big Query and populate our local Redis instance with key-value pairs regarding static data of our stations. 
 
-- `docker_app` folder: in this folder you can find all the required files needed to build the Docker image, referring to the web application. Please note that the .joblib file contained in the `model` subfolder refers to a reduced version of the full model used in the dockerized service, this has been done because the full model's size is too large to be pushed on GitHub.
+- `docker-app` folder: in this folder you can find all the required files needed to build the Docker image, referring to the web application. Please note that the .joblib file contained in the `model` subfolder refers to a reduced version of the full model used in the dockerized service, this has been done because the full model's size is too large to be pushed on GitHub.
 
-- `docker_full` folder: this folder includes the docker-compose.yml file which is necessary to run our full solution, composed by both the web application and the Redis instance.
+- `docker-full` folder: this folder includes the docker-compose.yml file which is necessary to run our full solution, composed by both the web application and the Redis instance.
 
 
 ## Instruction to run the service

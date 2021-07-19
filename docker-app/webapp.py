@@ -102,7 +102,7 @@ def app_id():
         data = client.get(station_id)
 
         if data is None:
-            return "Error: The id provided is not present in the database. <a href=/stations/id> style=color:blue;Go back</a>"
+            return "Error: The id provided is not present in the database. <a href=/stations/id> style=color:blue;>Go back</a>"
 
         # get data of the requested station
         df = pd.DataFrame(json.loads(data))

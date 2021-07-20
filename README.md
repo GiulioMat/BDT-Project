@@ -24,6 +24,6 @@ The service, through a simple interface, is capable of providing to a user, who 
 
 1. pull the image on GitHub Packages 
 2. download docker-full: [docker-full](https://downgit.github.io/#/home?url=https://github.com/GiulioMat/BDT-Project/tree/main/docker-full)
-3. unzip it and run `docker-compose up` inside the folder (it takes around 45 seconds for the service to be up and running)
+3. unzip it and run `docker-compose up` inside the folder (it takes around 1 minute for the service to be up and running)
 4. enter http://localhost:5000/ in a browser to see the application running
 

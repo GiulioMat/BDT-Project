@@ -6,6 +6,9 @@
 This repository refers to the implementation and the structure of a big data system built to predict the usage and the status, for a given day and a specific time slot, of e-charging stations and plugs in the Italian region of Trentino Alto Adige.
 The service, through a simple interface, is capable of providing to a user, who could be either a private driver or a maintenance technician, with the possibility to predict the status of a station up to the next 14 days.
 
+<p align="center">
+  <img src="https://i.ibb.co/fpfrcJr/E-Charging-Stations-API-1.png" />
+</p>
 
 ## Project Structure 
 

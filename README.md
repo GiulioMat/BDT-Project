@@ -1,7 +1,7 @@
 # BDT-Project
 
 <p align="center">
-  <img style="width: 50%" src="report/system_design.jpg">
+  <img style="width: 60%" src="report/system_design.jpg">
 </p>
 
 ## Project Objective 
